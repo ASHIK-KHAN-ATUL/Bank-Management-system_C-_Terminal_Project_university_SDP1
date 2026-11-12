@@ -166,7 +166,7 @@ void Bank::login()
     string inAccountNumber, inPassword;
 
     cout << "\n===========================================\n";
-    cout << "              CREATE ACCOUNT\n";
+    cout << "                   LOGIN\n";
     cout << "\n===========================================\n";
 
     cin.ignore();
@@ -178,9 +178,11 @@ void Bank::login()
     getline(cin, inPassword);
 
     ifstream file("accounts.txt");
-    if(!file.is_open()){
-        cout<<"\nAccount.txt not found";
+    if (!file.is_open())
+    {
+        cout << "\nAccount.txt not found";
         mainMenu();
+        return;
     }
 
     string fAccountNumber;
@@ -194,19 +196,68 @@ void Bank::login()
 
     bool loginSuccess = false;
 
-    while(getline(file, fAccountNumber, '|')){
+    while (getline(file, fAccountNumber, '|'))
+    {
         getline(file, fName, '|');
         getline(file, fPassword, '|');
         getline(file, fBalance, '|');
         getline(file, fEmail, '|');
         getline(file, fPhone, '|');
+        getline(file, fAddress, '|');
         getline(file, fAge);
 
-        if(inAccountNumber == fAccountNumber && inPassword == fPassword){
+        if (inAccountNumber == fAccountNumber && inPassword == fPassword)
+        {
+            accountNumber = fAccountNumber;
+            accountHolderName = fName;
+            password = fPassword;
+            balance = stod(fBalance);
+            email = fEmail;
+            phoneNumber = fPhone;
+            address = fAddress;
+            age = stoi(fAge);
 
+            loginSuccess = true;
+            break;
         }
     }
+
+    file.close();
+
+    if (loginSuccess)
+    {
+
+        cout << "\n--------------------------------------------\n";
+        cout << "             Login Successful.......\n";
+        cout << "\n--------------------------------------------\n";
+
+        cout << "Account Number : " << accountNumber << endl;
+        cout << "Account Number : " << accountHolderName << endl;
+        cout << "Balance        : " << balance << " BDT\n";
+    }
+
+    else
+    {
+        cout << "\nInvalid Account Number or Password!\n";
+    }
+
+    mainMenu();
 };
+
+void Bank::ourTeam()
+{
+    cout << "\n===========================================\n";
+    cout << "                  OUR TEAM\n";
+    cout << "===========================================\n";
+
+    cout << "1. Ashik Khan  | ID: 049\n";
+    cout << "2. Najmul      | ID: 075\n";
+    cout << "3. Boishaki    | ID: 001\n";
+
+    cout << "===========================================\n";
+
+    mainMenu();
+}
 
 int main()
 {
